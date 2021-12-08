@@ -9,12 +9,10 @@ import org.junit.Test;
  */
 public class AppTest 
 {
-    /**
-     * Rigorous Test :-)
-     */
+    private App app = new App();
     @Test
     public void shouldAnswerWithTrue()
     {
-        assertTrue( true );
+       app.readFile();
     }
 }
