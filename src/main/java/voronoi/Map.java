@@ -170,7 +170,7 @@ public class Map extends JPanel {
 
         for (NorthingsAndEastings northingsAndEasting : northingsAndEastings) {
             double x = WIDTH * (northingsAndEasting.getEasting() - minEasting) / (double) maxNorthingEastingPlotValue;
-            double y = WIDTH * (northingsAndEasting.getNorthing() - minNorthing) / (double) maxNorthingEastingPlotValue;
+            double y = WIDTH - WIDTH * (northingsAndEasting.getNorthing() - minNorthing) / (double) maxNorthingEastingPlotValue;
             Site newSite = new Site(x, y);
             if (MISSING_NORTHINGS_AND_EASTINGS.contains(northingsAndEasting)) {
                 missingSites.add(newSite);
