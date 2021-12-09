@@ -7,6 +7,7 @@ import kn.uni.voronoitreemap.j2d.Site;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  */
 public class Map extends JPanel {
 
-    public static final int WIDTH = 1000;
+    public static final int WIDTH = 8000;
 
     public static final List<NorthingsAndEastings> MISSING_NORTHINGS_AND_EASTINGS = new ArrayList<>();
     public static Set<Site> missingSites = new HashSet<>();
@@ -40,11 +41,17 @@ public class Map extends JPanel {
         MISSING_NORTHINGS_AND_EASTINGS.add(new NorthingsAndEastings("SA153QG", 250830, 200612));
     }
 
+    private BufferedImage buffer;
+
 
     public Map() {
 
         setAutoscrolls(true);
         setOpaque(true);
+        drawStuff();
+    }
+
+    private void updateBuffer(){
 
     }
 
@@ -52,14 +59,26 @@ public class Map extends JPanel {
         return new Dimension(WIDTH, WIDTH);
     }
 
-    public void paint(Graphics g) {
-        super.paint(g);
-        drawStuff(g);
+//    public void paint(Graphics g) {
+//        super.paint(g);
+//        drawStuff(g);
+//    }
+
+    public void paintComponent(Graphics g){
+        g.drawImage(buffer, 0, 0, this);
     }
 
 
-    public void drawStuff(Graphics g) {
+    public void drawStuff() {
+        // Assuming this happens in a subclass of JPanel, where you can access
+        // getWidth() and getHeight()
+        buffer=new BufferedImage(WIDTH, WIDTH, BufferedImage.TYPE_INT_RGB);
+
+        Graphics g=buffer.getGraphics();
+
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setPaint ( Color.WHITE);
+        g2d.fillRect ( 0, 0, WIDTH, WIDTH );
 
         PowerDiagram diagram = new PowerDiagram();
 
@@ -109,8 +128,7 @@ public class Map extends JPanel {
                 }
             }
         }
-
-
+        g.dispose();
     }
 
     public java.util.List<Site> readFile() {
