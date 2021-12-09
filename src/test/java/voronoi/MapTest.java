@@ -7,9 +7,9 @@ import org.junit.Test;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class MapTest
 {
-    private App app = new App();
+    private Map app = new Map();
     @Test
     public void shouldAnswerWithTrue()
     {

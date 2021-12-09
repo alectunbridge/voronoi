@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Hello world!
  */
-public class App extends JFrame {
+public class Map extends JPanel {
 
     public static final int WIDTH = 1000;
 
@@ -40,15 +40,16 @@ public class App extends JFrame {
         MISSING_NORTHINGS_AND_EASTINGS.add(new NorthingsAndEastings("SA153QG", 250830, 200612));
     }
 
-    private final JPanel jpanel = new JPanel();
 
-    public App() {
-        super("Drawing Demo");
-        setSize(WIDTH, WIDTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        JScrollPane scrollBar=new JScrollPane(jpanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        add(scrollBar);
+    public Map() {
+
+        setAutoscrolls(true);
+        setOpaque(true);
+
+    }
+
+    public Dimension getPreferredSize() {
+        return new Dimension(WIDTH, WIDTH);
     }
 
     public void paint(Graphics g) {
@@ -56,14 +57,6 @@ public class App extends JFrame {
         drawStuff(g);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new App().setVisible(true);
-            }
-        });
-    }
 
     public void drawStuff(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
@@ -109,7 +102,7 @@ public class App extends JFrame {
             PolygonSimple polygon = site.getPolygon();
             if (site.getPolygon() != null) {
                 g2d.draw(polygon);
-                if(missingSites.contains(site)){
+                if (missingSites.contains(site)) {
                     g2d.setColor(Color.RED);
                     g2d.fill(polygon);
                     g2d.setColor(Color.BLACK);
@@ -161,7 +154,7 @@ public class App extends JFrame {
             double x = WIDTH * (northingsAndEasting.getEasting() - minEasting) / (double) maxNorthingEastingPlotValue;
             double y = WIDTH * (northingsAndEasting.getNorthing() - minNorthing) / (double) maxNorthingEastingPlotValue;
             Site newSite = new Site(x, y);
-            if(MISSING_NORTHINGS_AND_EASTINGS.contains(northingsAndEasting)) {
+            if (MISSING_NORTHINGS_AND_EASTINGS.contains(northingsAndEasting)) {
                 missingSites.add(newSite);
             }
             result.add(newSite);
@@ -169,4 +162,6 @@ public class App extends JFrame {
 
         return result;
     }
+
+
 }
